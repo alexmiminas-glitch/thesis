@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import mysql.connector
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
@@ -86,6 +87,9 @@ def patient_info(patient_id):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
-   
+    host = '0.0.0.0'
+    
+    # Use Gunicorn to run the app
+    cmd = f"gunicorn --bind={host}:{port} --threads=4 your_app_module_name:app"
+    os.system(cmd)
 
