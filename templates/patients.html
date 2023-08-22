@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Patients</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+   <style>
+      .container {
+         max-width: 800px;
+         margin-top: 50px;
+      }
+
+      .btn-back {
+         margin-bottom: 20px;
+      }
+
+      .patient-link {
+         color: blue;
+         text-decoration: underline;
+         cursor: pointer;
+      }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <a href="/" class="btn btn-primary btn-back">Go to Main Page</a>
+       <h1>Patients</h1>
+       <table class="table">
+           <thead>
+               <tr>
+                   <th>ID</th>
+                   <th>First Name</th>
+                   <th>Last Name</th>
+                   <th>Date of Birth</th>
+                   <th>Gender</th>
+                   <th>Address</th>
+                   <th>Phone Number</th>
+                   <th>Email</th>
+                   <th>Action</th>
+               </tr>
+           </thead>
+           <tbody>
+               {% for patient in patients %}
+                   <tr>
+                       <td>
+                           <span class="patient-link" data-patient-id="{{ patient[0] }}">{{ patient[0] }}</span>
+                       </td>
+                       <td>{{ patient[1] }}</td>
+                       <td>{{ patient[2] }}</td>
+                       <td>{{ patient[3] }}</td>
+                       <td>{{ patient[4] }}</td>
+                       <td>{{ patient[5] }}</td>
+                       <td>{{ patient[6] }}</td>
+                       <td>{{ patient[7] }}</td>
+                       <td>
+                           <button class="btn btn-danger delete-button" data-patient-id="{{ patient[0] }}">Delete</button>
+                       </td>
+                   </tr>
+               {% endfor %}
+           </tbody>
+       </table>
+   </div>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+   <script>
+       $(document).ready(function() {
+           $('.patient-link').click(function() {
+               var patientId = $(this).data('patient-id');
+               window.location.href = '/patients/' + patientId;
+           });
+
+           $('.delete-button').click(function() {
+               var patientId = $(this).data('patient-id');
+               var deleteUrl = '/patients/delete/' + patientId;
+               $.ajax({
+                   url: deleteUrl,
+                   type: 'DELETE',
+                   success: function(response) {
+                       alert(response);
+                       location.reload(); // Refresh the page after successful deletion
+                   },
+                   error: function(error) {
+                       alert('Error: ' + error.responseText);
+                   }
+               });
+           });
+       });
+   </script>
+</body>
+</html>
