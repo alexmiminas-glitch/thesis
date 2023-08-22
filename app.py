@@ -90,6 +90,6 @@ if __name__ == '__main__':
     host = '0.0.0.0'
     
     # Use Gunicorn to run the app
-    cmd = f"gunicorn --bind={host}:{PORT} --threads=4 app:startapp(endhealth)"
+    cmd = f"gunicorn --bind={host}:{PORT} --threads=4 app:this()"
     os.system(cmd)
 
